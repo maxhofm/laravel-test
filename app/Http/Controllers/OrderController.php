@@ -20,13 +20,14 @@ use Illuminate\Support\Facades\Storage;
 class OrderController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Получение списка заявок
      *
-     * @return \Illuminate\Http\Response
+     * @return Application|Factory|View
      */
     public function index()
     {
-        //
+        $orders = Order::with(['client', 'status', 'file'])->orderBy('created_at')->get();
+        return view('order.index', compact('orders'));
     }
 
     /**
