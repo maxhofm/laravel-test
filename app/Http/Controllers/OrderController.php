@@ -59,7 +59,6 @@ class OrderController extends Controller
             ->where('client_id', $clientId)
             ->where('created_at', '>', Carbon::now()->subDays(1)->toDateTimeString())
             ->first();
-        // TODO: !epmty()
         if (empty($order)) {
             Session::flash(
                 'alert-warning',
