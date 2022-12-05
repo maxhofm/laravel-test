@@ -117,14 +117,14 @@ class OrderController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Страница ответа на заявку
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param int $id
+     * @return Application|Factory|View
      */
-    public function show(Order $order)
+    public function reply(int $id)
     {
-        //
+        return view('order.reply', ['order' => Order::find($id)]);
     }
 
     /**
