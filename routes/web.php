@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\DownloadFileController;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -21,9 +22,8 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
+Route::get('/dashboard', [HomeController::class, 'home'])
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/orders/create', [OrderController::class, 'create'])
     ->middleware('require.role:'.User::ClENT_ROLE)->name('orders.create');
