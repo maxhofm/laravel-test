@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DownloadFileController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\ProfileController;
 use App\Models\User;
@@ -32,6 +33,9 @@ Route::post('/orders', [OrderController::class, 'store'])
 
 Route::get('/orders', [OrderController::class, 'index'])
     ->middleware('require.role:'.User::MANAGER_ROLE)->name('orders.index');
+
+Route::get('/download-file/{file_name}', [DownloadFileController::class, 'downloadFile'])
+    ->middleware('require.role:'.User::MANAGER_ROLE)->name('orders.downloadFile');
 
 Route::get('/orders/reply/{id}', [OrderController::class, 'reply'])
     ->middleware('require.role:'.User::MANAGER_ROLE)->name('orders.reply');
