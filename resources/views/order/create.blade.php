@@ -1,6 +1,6 @@
 <x-app-layout>
     <div class="p-4">
-        <x-form action="#" class="w-full max-w-lg" has-files>
+        <x-form :action="route('orders.store')" class="w-full max-w-lg" has-files>
             @csrf
 
             @include('components.flash-alert')
@@ -36,7 +36,7 @@
 
             <div class="flex flex-wrap -mx-3 mb-6">
                 <div class="w-full px-3">
-                    <x-primary-button action="#" class="p-4 bg-blue-500">
+                    <x-primary-button :action="route('orders.store')" class="p-4 bg-blue-500">
                         Отправить
                     </x-primary-button>
                 </div>

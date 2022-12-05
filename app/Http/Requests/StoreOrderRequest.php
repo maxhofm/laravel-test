@@ -6,6 +6,14 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class StoreOrderRequest extends FormRequest
 {
+    public function attributes()
+    {
+        return [
+            'title' => 'Тема',
+            'text' => 'Сообщение',
+        ];
+    }
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -13,7 +21,7 @@ class StoreOrderRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +32,8 @@ class StoreOrderRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'title' => 'required|string|max:100',
+            'text' => 'required|string|max:1000',
         ];
     }
 }

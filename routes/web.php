@@ -27,6 +27,9 @@ Route::get('/dashboard', function () {
 Route::get('/orders/create', [OrderController::class, 'create'])
     ->middleware('require.role:'.User::ClENT_ROLE)->name('orders.create');
 
+Route::post('/orders', [OrderController::class, 'store'])
+    ->middleware('require.role:'.User::ClENT_ROLE)->name('orders.store');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
