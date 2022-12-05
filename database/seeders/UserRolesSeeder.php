@@ -20,7 +20,7 @@ class UserRolesSeeder extends Seeder
         $manager = User::where('name', 'manager')->first();
         $manager->assignRole(User::MANAGER_ROLE);
 
-        $client = User::where('name', 'user1')->first();
+        $client = User::where('name', 'client1')->first();
         $client->assignRole(User::ClENT_ROLE);
     }
 }
