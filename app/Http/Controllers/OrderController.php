@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SendReplyRequest;
 use App\Http\Requests\StoreOrderRequest;
 use App\Http\Requests\UpdateOrderRequest;
 use App\Jobs\SendEmailJob;
 use App\Models\File;
 use App\Models\Order;
+use App\Models\OrderStatus;
 use Carbon\Carbon;
 use Exception;
 use Illuminate\Contracts\Foundation\Application;
@@ -128,36 +130,36 @@ class OrderController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
+     * Отправка ответа на заявку
      *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
+     * @param SendReplyRequest $request
+     * @return RedirectResponse
      */
-    public function edit(Order $order)
+    public function sendReply(SendReplyRequest $request): RedirectResponse
     {
-        //
-    }
+        $flashType = 'warning';
+        $flashMsg = 'Не удалось найти заявку';
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \App\Http\Requests\UpdateOrderRequest  $request
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function update(UpdateOrderRequest $request, Order $order)
-    {
-        //
-    }
+        // Ищем заявку по id
+        $order = Order::find($request->id);
+        if (!empty($order)) {
+            $flashType = 'success';
+            $flashMsg = 'Ответ отправлен';
+            try {
+                // Назначаем заявку на менеджра и сохраняем ответ
+                $order->reply = $request->reply;
+                $order->status_id = OrderStatus::STATUS_HANDLED;
+                $order->manager_id = auth()->user()->getAuthIdentifier();
+                $order->updated_at = Carbon::now()->toDateTimeString();
+                $order->save();
+            } catch (Exception $e) {
+                $flashType = 'danger';
+                $flashMsg = 'Не удалось сохранить заявку';
+                Log::error($e->getMessage());
+            }
+        }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Order  $order
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Order $order)
-    {
-        //
+        Session::flash('alert-' . $flashType, $flashMsg);
+        return redirect('orders');
     }
 }

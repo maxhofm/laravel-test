@@ -36,6 +36,9 @@ Route::get('/orders', [OrderController::class, 'index'])
 Route::get('/orders/reply/{id}', [OrderController::class, 'reply'])
     ->middleware('require.role:'.User::MANAGER_ROLE)->name('orders.reply');
 
+Route::post('/orders/send-reply', [OrderController::class, 'sendReply'])
+    ->middleware('require.role:'.User::MANAGER_ROLE)->name('orders.sendReply');
+
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');

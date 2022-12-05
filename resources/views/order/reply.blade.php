@@ -1,5 +1,5 @@
 <x-app-layout>
-    <x-form action="#" class="w-full">
+    <x-form :action="route('orders.sendReply')" class="w-full">
         @csrf
 
         @include('components.flash-alert')
